@@ -6,7 +6,7 @@ from typing import Tuple
 
 # * * * STATISTICAL TESTS * * *
 
-def mardia(data: np.ndarray, cov: bool = True) -> Tuple[float, float, float, float]:
+def mardia_test(data: np.ndarray, cov: bool = True) -> Tuple[float, float, float, float]:
     """
     https://rdrr.io/cran/MVN/src/R/mvn.R
     https://stats.stackexchange.com/questions/317147/how-to-get-a-single-p-value-from-the-two-p-values-of-a-mardias-multinormality-t
@@ -78,7 +78,7 @@ def mardia(data: np.ndarray, cov: bool = True) -> Tuple[float, float, float, flo
     return g_skew, g_kurt, p_skew, p_kurt
 
 
-def hztest(data: np.ndarray, cov: bool = True) -> Tuple[float, float]:
+def hz_test(data: np.ndarray, cov: bool = True) -> Tuple[float, float]:
     """
     Henze-Zirkler method for goodness of fit of data to a multivariate normal distribution.
     Researchers tend to use this MVN test for larger samples (N > 100) which is our use case.
@@ -136,3 +136,20 @@ def hztest(data: np.ndarray, cov: bool = True) -> Tuple[float, float]:
     p_value = 1.0 - stats.lognorm.cdf(HZ, psi, scale=np.exp(pmu))
 
     return HZ, p_value
+
+def royston_test(data: np.ndarray, cov: bool = True) -> Tuple[float, float]:
+    """
+
+    Royston’s test uses the Shapiro-Wilk/Shapiro-Francia statistic to test multivariate normality. If kurtosis
+    of the data is greater than 3, then it uses the Shapiro-Francia test for leptokurtic distributions, otherwise
+    it uses the Shapiro-Wilk test for platykurtic distributions (Shapiro and Wilk, 1964; Royston, 1982, 1983,
+    1992; Johnson and Wichern, 1992; Royston, 1995; Mecklin and Mundfrom, 2005).
+
+    :param data:
+    :param cov:
+    :return:
+    """
+    # todo - implement function
+    R: float = 0.0
+    p_value: float = 0.0
+    return R, p_value
