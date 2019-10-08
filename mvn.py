@@ -81,13 +81,13 @@ def mardia_test(data: np.ndarray, cov: bool = True) -> Tuple[float, float, float
 def hz_test(data: np.ndarray, cov: bool = True) -> Tuple[float, float]:
     """
     Henze-Zirkler method for goodness of fit of data to a multivariate normal distribution.
-    Researchers tend to use this MVN test for larger samples (N > 100) which is our use case.
+    Researchers tend to use this MVN test for larger samples (N > 100).
     https://www.tandfonline.com/doi/abs/10.1080/03610929008830400
 
     :param data: multivariate data matrix [Size of matrix must be n(data)-by-p(variables)].
     :param cov: boolean to whether to normalize the covariance matrix by n (c=1[default]) or by n-1 (c~=1)
     :return:
-        hz - Henze-Zirkler test statistic
+        HZ - Henze-Zirkler test statistic
         p_value - significance value
     """
     n, p = data.shape
@@ -145,11 +145,23 @@ def royston_test(data: np.ndarray, cov: bool = True) -> Tuple[float, float]:
     it uses the Shapiro-Wilk test for platykurtic distributions (Shapiro and Wilk, 1964; Royston, 1982, 1983,
     1992; Johnson and Wichern, 1992; Royston, 1995; Mecklin and Mundfrom, 2005).
 
-    :param data:
-    :param cov:
+    Researchers tend to use this MVN test for small samples (N <= 30).
+
+    :param data: multivariate data matrix [Size of matrix must be n(data)-by-p(variables)].
+    :param cov: boolean to whether to normalize the covariance matrix by n (c=1[default]) or by n-1 (c~=1)
     :return:
+        R - Royston test statistic
+        p_value - significance value
     """
     # todo - implement function
+
+    n, p = data.shape
+
+    if cov:
+        S = ((n - 1)/n) * np.cov(data.T)
+    else:
+        S = np.cov(data.T)
+
     R: float = 0.0
     p_value: float = 0.0
     return R, p_value
